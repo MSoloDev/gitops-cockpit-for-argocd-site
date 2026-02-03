@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>GitOps Pilot for Argo CD</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		body {
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+			line-height: 1.6;
+			color: #e0e0e0;
+			background: #1a1b26;
+			min-height: 100vh;
+		}
+		.container {
+			max-width: 880px;
+			margin: 0 auto;
+			padding: 40px 20px;
+		}
+		header {
+			text-align: center;
+			padding: 80px 0 60px;
+		}
+		.logo {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 15px;
+			margin-bottom: 20px;
+		}
+		.logo-icon {
+			width: 56px;
+			height: 56px;
+			background: linear-gradient(135deg, #e8723a 0%, #f59542 100%);
+			border-radius: 12px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		.logo-icon svg {
+			width: 32px;
+			height: 32px;
+			fill: white;
+		}
+		header h1 {
+			font-size: 2.2rem;
+			font-weight: 600;
+			color: #ffffff;
+		}
+		header .tagline {
+			font-size: 1.15rem;
+			color: #8b8fa3;
+			margin-top: 12px;
+		}
+		.cta-button {
+			display: inline-block;
+			margin-top: 35px;
+			padding: 14px 36px;
+			background: linear-gradient(135deg, #e8723a 0%, #f59542 100%);
+			color: white;
+			text-decoration: none;
+			border-radius: 8px;
+			font-weight: 600;
+			font-size: 1rem;
+			transition: all 0.2s ease;
+			box-shadow: 0 4px 20px rgba(232, 114, 58, 0.3);
+		}
+		.cta-button:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 6px 30px rgba(232, 114, 58, 0.4);
+		}
+		.card {
+			background: #24253a;
+			border: 1px solid #2e3044;
+			border-radius: 12px;
+			padding: 35px;
+			margin-bottom: 20px;
+		}
+		.card h2 {
+			color: #ffffff;
+			font-size: 1.25rem;
+			font-weight: 600;
+			margin-bottom: 25px;
+		}
+		.features {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 40px;
+		}
+		@media (max-width: 600px) {
+			.features {
+				grid-template-columns: 1fr;
+				gap: 30px;
+			}
+			header h1 {
+				font-size: 1.7rem;
+			}
+			.logo {
+				flex-direction: column;
+				gap: 10px;
+			}
+		}
+		.feature-list h3 {
+			font-size: 0.85rem;
+			font-weight: 600;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+			margin-bottom: 18px;
+			padding-bottom: 12px;
+			border-bottom: 1px solid #3a3c52;
+			color: #8b8fa3;
+		}
+		.feature-list.pro h3 {
+			color: #e8723a;
+		}
+		.feature-list ul {
+			list-style: none;
+		}
+		.feature-list li {
+			padding: 10px 0;
+			padding-left: 28px;
+			position: relative;
+			color: #c0c4d6;
+			font-size: 0.95rem;
+		}
+		.feature-list li::before {
+			content: "";
+			position: absolute;
+			left: 0;
+			top: 14px;
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			background: #4a9eff;
+		}
+		.feature-list.pro li::before {
+			background: linear-gradient(135deg, #e8723a 0%, #f59542 100%);
+		}
+		.price-tag {
+			display: inline-block;
+			background: rgba(232, 114, 58, 0.15);
+			color: #f59542;
+			padding: 4px 12px;
+			border-radius: 6px;
+			font-size: 0.8rem;
+			margin-left: 10px;
+			text-transform: none;
+			letter-spacing: 0;
+			font-weight: 500;
+		}
+		.info-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 20px;
+		}
+		@media (max-width: 600px) {
+			.info-grid {
+				grid-template-columns: 1fr;
+			}
+		}
+		.info-card {
+			background: #24253a;
+			border: 1px solid #2e3044;
+			border-radius: 12px;
+			padding: 25px;
+		}
+		.info-card h2 {
+			color: #ffffff;
+			font-size: 1rem;
+			font-weight: 600;
+			margin-bottom: 15px;
+		}
+		.info-card p, .info-card li {
+			color: #8b8fa3;
+			font-size: 0.9rem;
+		}
+		.info-card ul {
+			list-style: none;
+		}
+		.info-card li {
+			padding: 4px 0;
+		}
+		.info-card a {
+			color: #4a9eff;
+			text-decoration: none;
+		}
+		.info-card a:hover {
+			text-decoration: underline;
+		}
+		footer {
+			text-align: center;
+			color: #5a5d72;
+			padding: 50px 0 30px;
+			font-size: 0.85rem;
+		}
+	</style>
+</head>
+<body>
+<div class="container">
+	<header>
+		<div class="logo">
+			<div class="logo-icon">
+				<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+					<path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.5L18.5 7 12 9.5 5.5 7 12 4.5zM4 8.5l7 3.5v7.5l-7-3.5V8.5zm16 0v7.5l-7
+  3.5v-7.5l7-3.5z"/>
+				</svg>
+			</div>
+			<h1>GitOps Pilot</h1>
+		</div>
+		<p class="tagline">Manage Argo CD applications directly from IntelliJ IDEA</p>
+		<a href="https://plugins.jetbrains.com/plugin/XXXXX-gitops-pilot" class="cta-button">
+			Get on JetBrains Marketplace
+		</a>
+	</header>
+
+	<div class="card">
+		<h2>Features</h2>
+		<div class="features">
+			<div class="feature-list">
+				<h3>Free</h3>
+				<ul>
+					<li>Secure token authentication</li>
+					<li>Real-time health & sync status</li>
+					<li>Kubernetes resource tree</li>
+					<li>Resource details & manifests</li>
+					<li>Search & filter applications</li>
+					<li>Open in Argo CD web UI</li>
+					<li>Self-signed certificate support</li>
+				</ul>
+			</div>
+			<div class="feature-list pro">
+				<h3>Pro <span class="price-tag">€79/year</span></h3>
+				<ul>
+					<li>Multi-server support</li>
+					<li>Sync with options (prune, dry-run)</li>
+					<li>Rollback to any revision</li>
+					<li>Auto-refresh & notifications</li>
+					<li>Live vs desired diff view</li>
+					<li>Exec into pods (terminal)</li>
+					<li>Bulk operations</li>
+					<li>Favorite applications</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="info-grid">
+		<div class="info-card">
+			<h2>Requirements</h2>
+			<ul>
+				<li>IntelliJ IDEA 2025.2+</li>
+				<li>Argo CD server v2.0+</li>
+			</ul>
+		</div>
+		<div class="info-card">
+			<h2>Support</h2>
+			<p>Questions or issues?<br>
+				<a href="mailto:m.latta.pro@gmail.com">m.latta.pro@gmail.com</a></p>
+		</div>
+	</div>
+
+	<footer>
+		<p>&copy; 2026 MSoloDev</p>
+	</footer>
+</div>
+</body>
+</html>
