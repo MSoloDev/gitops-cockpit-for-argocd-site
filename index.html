@@ -713,6 +713,85 @@
 			.hero-actions { flex-direction: column; align-items: center; }
 		}
 
+		/* ── LIVE DEMO ───────────────────────────────────── */
+		.demo-section {
+			background: var(--bg-surface);
+			padding: 96px 40px;
+		}
+
+		.demo-header {
+			text-align: center;
+			margin-bottom: 48px;
+		}
+
+		.demo-header .section-desc {
+			margin: 0 auto;
+		}
+
+		.demo-frame {
+			max-width: 1000px;
+			margin: 0 auto;
+		}
+
+		.demo-steps {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 12px;
+			margin-bottom: 28px;
+			flex-wrap: wrap;
+		}
+
+		.demo-step {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			background: var(--bg-card);
+			border: 1px solid var(--border);
+			border-radius: 10px;
+			padding: 12px 18px;
+		}
+
+		.demo-step-num {
+			width: 28px;
+			height: 28px;
+			border-radius: 50%;
+			background: linear-gradient(135deg, var(--orange), var(--orange-light));
+			color: white;
+			font-size: 0.8rem;
+			font-weight: 700;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-shrink: 0;
+		}
+
+		.demo-step strong {
+			display: block;
+			font-size: 0.875rem;
+			font-weight: 600;
+			color: var(--text);
+		}
+
+		.demo-step span {
+			font-size: 0.78rem;
+			color: var(--text-muted);
+		}
+
+		.demo-step-arrow {
+			color: var(--text-subtle);
+			font-size: 1.1rem;
+		}
+
+		.demo-gif-frame img {
+			cursor: zoom-in;
+		}
+
+		@media (max-width: 900px) {
+			.demo-section { padding: 64px 20px; }
+			.demo-step-arrow { display: none; }
+		}
+
 		/* ── LIGHTBOX ────────────────────────────────────── */
 		.lightbox {
 			display: none;
@@ -855,6 +934,56 @@
 					<div class="dot dot-green"></div>
 				</div>
 				<img src="screenshots/ide-overview.png" alt="GitOps Cockpit overview in IntelliJ IDEA">
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ── LIVE DEMO ──────────────────────────────────────────── -->
+<section class="demo-section">
+	<div class="section-inner">
+		<div class="demo-header">
+			<p class="section-label">See It In Action</p>
+			<h2 class="section-title">From alert to healthy — in seconds</h2>
+			<p class="section-desc">
+				GitOps Cockpit watches your cluster continuously. The moment an application
+				drifts out of sync, you get an IDE notification. One click triggers the sync —
+				and you watch every resource reconcile back to healthy, right in your editor.
+			</p>
+		</div>
+		<div class="demo-frame">
+			<div class="demo-steps">
+				<div class="demo-step">
+					<div class="demo-step-num">1</div>
+					<div>
+						<strong>Out-of-sync detected</strong>
+						<span>IDE notification fires instantly</span>
+					</div>
+				</div>
+				<div class="demo-step-arrow">→</div>
+				<div class="demo-step">
+					<div class="demo-step-num">2</div>
+					<div>
+						<strong>Trigger sync</strong>
+						<span>One click from the plugin panel</span>
+					</div>
+				</div>
+				<div class="demo-step-arrow">→</div>
+				<div class="demo-step">
+					<div class="demo-step-num">3</div>
+					<div>
+						<strong>Back to healthy</strong>
+						<span>Status updates in real time</span>
+					</div>
+				</div>
+			</div>
+			<div class="screenshot-frame demo-gif-frame">
+				<div class="screenshot-bar">
+					<div class="dot dot-red"></div>
+					<div class="dot dot-yellow"></div>
+					<div class="dot dot-green"></div>
+				</div>
+				<img src="screenshots/sync.gif" alt="Real-time sync flow: out-of-sync notification, manual sync, back to healthy">
 			</div>
 		</div>
 	</div>
