@@ -1,2 +1,2 @@
-# gitups-pilot-for-argocd-site
-GitOps Pilot for Argo CD - IntelliJ IDEA Plugin
+# gitups-cockpit-for-argocd-site
+GitOps Cockpit for Argo CD - IntelliJ IDEA Plugin
