@@ -3,270 +3,1307 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>GitOps Pilot for Argo CD</title>
+	<title>GitOps Cockpit for ArgoCD</title>
 	<style>
-		* {
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
+		:root {
+			--bg: #0d0f1e;
+			--bg-surface: #13152a;
+			--bg-card: #1a1c35;
+			--border: #252840;
+			--border-light: #2e3255;
+			--text: #f0f2ff;
+			--text-muted: #8b90b3;
+			--text-subtle: #555878;
+			--orange: #e8723a;
+			--orange-light: #f59542;
+			--orange-glow: rgba(232, 114, 58, 0.25);
+			--blue: #4a9eff;
+			--blue-glow: rgba(74, 158, 255, 0.15);
+			--green: #4caf82;
+			--radius: 12px;
 		}
+
+		* { margin: 0; padding: 0; box-sizing: border-box; }
+
+		html { scroll-behavior: smooth; }
+
 		body {
-			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+			background: var(--bg);
+			color: var(--text);
 			line-height: 1.6;
-			color: #e0e0e0;
-			background: #1a1b26;
-			min-height: 100vh;
+			overflow-x: hidden;
 		}
-		.container {
-			max-width: 880px;
-			margin: 0 auto;
-			padding: 40px 20px;
-		}
-		header {
-			text-align: center;
-			padding: 80px 0 60px;
-		}
-		.logo {
+
+		/* ── NAV ─────────────────────────────────────────── */
+		nav {
+			position: sticky;
+			top: 0;
+			z-index: 100;
 			display: flex;
 			align-items: center;
-			justify-content: center;
-			gap: 15px;
-			margin-bottom: 20px;
+			justify-content: space-between;
+			padding: 0 40px;
+			height: 64px;
+			background: rgba(13, 15, 30, 0.85);
+			backdrop-filter: blur(12px);
+			border-bottom: 1px solid var(--border);
 		}
-		.logo-icon {
-			width: 56px;
-			height: 56px;
-			background: linear-gradient(135deg, #e8723a 0%, #f59542 100%);
-			border-radius: 12px;
+
+		.nav-logo {
 			display: flex;
 			align-items: center;
-			justify-content: center;
+			gap: 10px;
+			text-decoration: none;
+			color: var(--text);
 		}
-		.logo-icon svg {
+
+		.nav-logo-icon {
 			width: 32px;
 			height: 32px;
+			background: linear-gradient(135deg, var(--orange), var(--orange-light));
+			border-radius: 8px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-shrink: 0;
+		}
+
+		.nav-logo-icon svg {
+			width: 18px;
+			height: 18px;
 			fill: white;
 		}
-		header h1 {
-			font-size: 2.2rem;
+
+		.nav-logo-text {
+			font-size: 0.95rem;
 			font-weight: 600;
-			color: #ffffff;
+			letter-spacing: -0.01em;
 		}
-		header .tagline {
-			font-size: 1.15rem;
-			color: #8b8fa3;
-			margin-top: 12px;
+
+		.nav-links {
+			display: flex;
+			align-items: center;
+			gap: 32px;
+			list-style: none;
 		}
-		.cta-button {
-			display: inline-block;
-			margin-top: 35px;
-			padding: 14px 36px;
-			background: linear-gradient(135deg, #e8723a 0%, #f59542 100%);
-			color: white;
+
+		.nav-links a {
+			color: var(--text-muted);
 			text-decoration: none;
+			font-size: 0.9rem;
+			transition: color 0.2s;
+		}
+
+		.nav-links a:hover { color: var(--text); }
+
+		.nav-cta {
+			background: linear-gradient(135deg, var(--orange), var(--orange-light));
+			color: white !important;
+			padding: 8px 20px;
 			border-radius: 8px;
 			font-weight: 600;
-			font-size: 1rem;
-			transition: all 0.2s ease;
-			box-shadow: 0 4px 20px rgba(232, 114, 58, 0.3);
+			font-size: 0.875rem !important;
+			transition: opacity 0.2s, transform 0.2s !important;
 		}
-		.cta-button:hover {
-			transform: translateY(-2px);
-			box-shadow: 0 6px 30px rgba(232, 114, 58, 0.4);
-		}
-		.card {
-			background: #24253a;
-			border: 1px solid #2e3044;
-			border-radius: 12px;
-			padding: 35px;
-			margin-bottom: 20px;
-		}
-		.card h2 {
-			color: #ffffff;
-			font-size: 1.25rem;
-			font-weight: 600;
-			margin-bottom: 25px;
-		}
-		.features {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			gap: 40px;
-		}
-		@media (max-width: 600px) {
-			.features {
-				grid-template-columns: 1fr;
-				gap: 30px;
-			}
-			header h1 {
-				font-size: 1.7rem;
-			}
-			.logo {
-				flex-direction: column;
-				gap: 10px;
-			}
-		}
-		.feature-list h3 {
-			font-size: 0.85rem;
-			font-weight: 600;
-			text-transform: uppercase;
-			letter-spacing: 0.5px;
-			margin-bottom: 18px;
-			padding-bottom: 12px;
-			border-bottom: 1px solid #3a3c52;
-			color: #8b8fa3;
-		}
-		.feature-list.pro h3 {
-			color: #e8723a;
-		}
-		.feature-list ul {
-			list-style: none;
-		}
-		.feature-list li {
-			padding: 10px 0;
-			padding-left: 28px;
+
+		.nav-cta:hover { opacity: 0.9; transform: translateY(-1px); color: white !important; }
+
+		/* ── HERO ────────────────────────────────────────── */
+		.hero {
 			position: relative;
-			color: #c0c4d6;
-			font-size: 0.95rem;
+			padding: 100px 40px 80px;
+			text-align: center;
+			overflow: hidden;
 		}
-		.feature-list li::before {
+
+		.hero::before {
 			content: "";
 			position: absolute;
-			left: 0;
-			top: 14px;
-			width: 8px;
-			height: 8px;
-			border-radius: 50%;
-			background: #4a9eff;
+			inset: 0;
+			background:
+				radial-gradient(ellipse 80% 50% at 50% -10%, rgba(232, 114, 58, 0.15) 0%, transparent 70%),
+				radial-gradient(ellipse 60% 40% at 80% 80%, rgba(74, 158, 255, 0.08) 0%, transparent 60%);
+			pointer-events: none;
 		}
-		.feature-list.pro li::before {
-			background: linear-gradient(135deg, #e8723a 0%, #f59542 100%);
+
+		.hero-grid {
+			position: absolute;
+			inset: 0;
+			background-image:
+				linear-gradient(rgba(37, 40, 64, 0.4) 1px, transparent 1px),
+				linear-gradient(90deg, rgba(37, 40, 64, 0.4) 1px, transparent 1px);
+			background-size: 60px 60px;
+			mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, black, transparent);
+			pointer-events: none;
 		}
-		.price-tag {
-			display: inline-block;
-			background: rgba(232, 114, 58, 0.15);
-			color: #f59542;
-			padding: 4px 12px;
-			border-radius: 6px;
+
+		.hero-content {
+			position: relative;
+			max-width: 760px;
+			margin: 0 auto;
+		}
+
+		.hero-badge {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			background: rgba(232, 114, 58, 0.1);
+			border: 1px solid rgba(232, 114, 58, 0.25);
+			color: var(--orange-light);
+			padding: 6px 16px;
+			border-radius: 100px;
 			font-size: 0.8rem;
-			margin-left: 10px;
-			text-transform: none;
-			letter-spacing: 0;
-			font-weight: 500;
+			font-weight: 600;
+			letter-spacing: 0.03em;
+			text-transform: uppercase;
+			margin-bottom: 28px;
 		}
-		.info-grid {
+
+		.hero-badge span {
+			width: 6px;
+			height: 6px;
+			background: var(--orange);
+			border-radius: 50%;
+			animation: pulse 2s ease-in-out infinite;
+		}
+
+		@keyframes pulse {
+			0%, 100% { opacity: 1; }
+			50% { opacity: 0.4; }
+		}
+
+		.hero h1 {
+			font-size: clamp(2.4rem, 5vw, 3.6rem);
+			font-weight: 700;
+			letter-spacing: -0.03em;
+			line-height: 1.1;
+			margin-bottom: 20px;
+		}
+
+		.hero h1 span {
+			background: linear-gradient(135deg, var(--orange) 0%, var(--orange-light) 100%);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+		}
+
+		.hero-desc {
+			font-size: 1.15rem;
+			color: var(--text-muted);
+			max-width: 560px;
+			margin: 0 auto 36px;
+			line-height: 1.7;
+		}
+
+		.hero-actions {
+			display: flex;
+			gap: 16px;
+			justify-content: center;
+			flex-wrap: wrap;
+			margin-bottom: 64px;
+		}
+
+		.btn-primary {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			padding: 14px 28px;
+			background: linear-gradient(135deg, var(--orange), var(--orange-light));
+			color: white;
+			text-decoration: none;
+			border-radius: 10px;
+			font-weight: 600;
+			font-size: 0.975rem;
+			box-shadow: 0 4px 24px var(--orange-glow);
+			transition: all 0.2s;
+		}
+
+		.btn-primary:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 8px 32px var(--orange-glow);
+		}
+
+		.btn-secondary {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			padding: 14px 28px;
+			background: var(--bg-card);
+			color: var(--text-muted);
+			text-decoration: none;
+			border-radius: 10px;
+			font-weight: 500;
+			font-size: 0.975rem;
+			border: 1px solid var(--border);
+			transition: all 0.2s;
+		}
+
+		.btn-secondary:hover {
+			color: var(--text);
+			border-color: var(--border-light);
+		}
+
+		.hero-screenshot {
+			position: relative;
+			display: inline-block;
+			width: 100%;
+			max-width: 1060px;
+			margin: 0 auto;
+		}
+
+		.screenshot-frame {
+			background: var(--bg-card);
+			border: 1px solid var(--border-light);
+			border-radius: 14px;
+			overflow: hidden;
+			box-shadow:
+				0 0 0 1px rgba(255,255,255,0.04),
+				0 32px 80px rgba(0,0,0,0.6),
+				0 0 80px rgba(232, 114, 58, 0.05);
+		}
+
+		.screenshot-bar {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			padding: 10px 16px;
+			background: rgba(0,0,0,0.2);
+			border-bottom: 1px solid var(--border);
+		}
+
+		.dot { width: 10px; height: 10px; border-radius: 50%; }
+		.dot-red { background: #ff5f57; }
+		.dot-yellow { background: #febc2e; }
+		.dot-green { background: #28c840; }
+
+		.screenshot-frame img {
+			width: 100%;
+			display: block;
+		}
+
+		/* ── SECTION LAYOUT ──────────────────────────────── */
+		section {
+			padding: 96px 40px;
+		}
+
+		.section-inner {
+			max-width: 1200px;
+			margin: 0 auto;
+		}
+
+		.section-label {
+			font-size: 0.78rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.1em;
+			color: var(--orange);
+			margin-bottom: 12px;
+		}
+
+		.section-title {
+			font-size: clamp(1.8rem, 3vw, 2.5rem);
+			font-weight: 700;
+			letter-spacing: -0.025em;
+			line-height: 1.2;
+			margin-bottom: 16px;
+		}
+
+		.section-desc {
+			font-size: 1rem;
+			color: var(--text-muted);
+			max-width: 540px;
+			line-height: 1.7;
+		}
+
+		/* ── FEATURE SPOTLIGHTS ──────────────────────────── */
+		.spotlight {
+			background: var(--bg-surface);
+		}
+
+		.spotlight:nth-child(even) {
+			background: var(--bg);
+		}
+
+		.spotlight-grid {
 			display: grid;
 			grid-template-columns: 1fr 1fr;
+			gap: 64px;
+			align-items: center;
+		}
+
+		.spotlight-grid.reverse {
+			direction: rtl;
+		}
+
+		.spotlight-grid.reverse > * {
+			direction: ltr;
+		}
+
+		.spotlight-text {}
+
+		.spotlight-screenshot .screenshot-frame {
+			box-shadow:
+				0 0 0 1px rgba(255,255,255,0.04),
+				0 24px 60px rgba(0,0,0,0.5);
+		}
+
+		.feature-chips {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 8px;
+			margin-top: 24px;
+		}
+
+		.chip {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			padding: 6px 12px;
+			background: var(--bg-card);
+			border: 1px solid var(--border);
+			border-radius: 100px;
+			font-size: 0.8rem;
+			color: var(--text-muted);
+		}
+
+		.chip-dot {
+			width: 6px;
+			height: 6px;
+			border-radius: 50%;
+		}
+
+		/* ── SCREENSHOT GALLERY ──────────────────────────── */
+		.gallery-section {
+			background: var(--bg);
+		}
+
+		.gallery-header {
+			text-align: center;
+			margin-bottom: 56px;
+		}
+
+		.gallery-header .section-desc {
+			margin: 0 auto;
+		}
+
+		.gallery-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
 			gap: 20px;
 		}
-		@media (max-width: 600px) {
-			.info-grid {
-				grid-template-columns: 1fr;
-			}
-		}
-		.info-card {
-			background: #24253a;
-			border: 1px solid #2e3044;
+
+		.gallery-item {
+			background: var(--bg-card);
+			border: 1px solid var(--border);
 			border-radius: 12px;
-			padding: 25px;
+			overflow: hidden;
+			transition: border-color 0.2s, transform 0.2s;
+			cursor: default;
 		}
-		.info-card h2 {
-			color: #ffffff;
-			font-size: 1rem;
+
+		.gallery-item:hover {
+			border-color: var(--border-light);
+			transform: translateY(-3px);
+		}
+
+		.gallery-item img {
+			width: 100%;
+			display: block;
+		}
+
+		.gallery-caption {
+			padding: 14px 16px;
+			border-top: 1px solid var(--border);
+		}
+
+		.gallery-caption h4 {
+			font-size: 0.875rem;
 			font-weight: 600;
-			margin-bottom: 15px;
+			color: var(--text);
+			margin-bottom: 2px;
 		}
-		.info-card p, .info-card li {
-			color: #8b8fa3;
-			font-size: 0.9rem;
+
+		.gallery-caption p {
+			font-size: 0.78rem;
+			color: var(--text-muted);
 		}
-		.info-card ul {
+
+		/* ── PRICING ─────────────────────────────────────── */
+		.pricing-section {
+			background: var(--bg-surface);
+		}
+
+		.pricing-header {
+			text-align: center;
+			margin-bottom: 56px;
+		}
+
+		.pricing-header .section-desc {
+			margin: 0 auto;
+		}
+
+		.pricing-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 24px;
+			max-width: 900px;
+			margin: 0 auto;
+		}
+
+		.pricing-card {
+			background: var(--bg-card);
+			border: 1px solid var(--border);
+			border-radius: 16px;
+			padding: 36px;
+		}
+
+		.pricing-card.highlight {
+			border-color: var(--orange);
+			background: linear-gradient(160deg, rgba(232, 114, 58, 0.06) 0%, var(--bg-card) 50%);
+			position: relative;
+		}
+
+		.pricing-card.highlight::before {
+			content: "Most Popular";
+			position: absolute;
+			top: -12px;
+			left: 50%;
+			transform: translateX(-50%);
+			background: linear-gradient(135deg, var(--orange), var(--orange-light));
+			color: white;
+			padding: 4px 16px;
+			border-radius: 100px;
+			font-size: 0.75rem;
+			font-weight: 700;
+			letter-spacing: 0.05em;
+			white-space: nowrap;
+		}
+
+		.plan-name {
+			font-size: 0.85rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.1em;
+			color: var(--text-muted);
+			margin-bottom: 8px;
+		}
+
+		.plan-name.pro { color: var(--orange); }
+
+		.plan-price {
+			font-size: 2.4rem;
+			font-weight: 700;
+			letter-spacing: -0.03em;
+			margin-bottom: 4px;
+		}
+
+		.plan-price span {
+			font-size: 1rem;
+			font-weight: 400;
+			color: var(--text-muted);
+		}
+
+		.plan-desc {
+			font-size: 0.875rem;
+			color: var(--text-muted);
+			margin-bottom: 28px;
+			padding-bottom: 28px;
+			border-bottom: 1px solid var(--border);
+		}
+
+		.plan-features {
 			list-style: none;
 		}
-		.info-card li {
-			padding: 4px 0;
+
+		.plan-features li {
+			display: flex;
+			align-items: flex-start;
+			gap: 10px;
+			padding: 7px 0;
+			font-size: 0.9rem;
+			color: var(--text-muted);
 		}
+
+		.check {
+			flex-shrink: 0;
+			width: 18px;
+			height: 18px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-top: 1px;
+		}
+
+		.check-blue { background: rgba(74, 158, 255, 0.15); }
+		.check-orange { background: rgba(232, 114, 58, 0.15); }
+
+		.check svg {
+			width: 10px;
+			height: 10px;
+		}
+
+		.check-blue svg { stroke: var(--blue); }
+		.check-orange svg { stroke: var(--orange); }
+
+		.plan-cta {
+			display: block;
+			text-align: center;
+			margin-top: 28px;
+			padding: 12px;
+			border-radius: 10px;
+			font-weight: 600;
+			font-size: 0.9rem;
+			text-decoration: none;
+			transition: all 0.2s;
+		}
+
+		.plan-cta-outline {
+			border: 1px solid var(--border-light);
+			color: var(--text-muted);
+		}
+
+		.plan-cta-outline:hover {
+			border-color: var(--blue);
+			color: var(--blue);
+		}
+
+		.plan-cta-primary {
+			background: linear-gradient(135deg, var(--orange), var(--orange-light));
+			color: white;
+			box-shadow: 0 4px 20px var(--orange-glow);
+		}
+
+		.plan-cta-primary:hover {
+			transform: translateY(-1px);
+			box-shadow: 0 8px 28px var(--orange-glow);
+		}
+
+		/* ── INFO STRIP ──────────────────────────────────── */
+		.info-section {
+			background: var(--bg);
+			padding: 64px 40px;
+		}
+
+		.info-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 24px;
+			max-width: 1200px;
+			margin: 0 auto;
+		}
+
+		.info-card {
+			background: var(--bg-card);
+			border: 1px solid var(--border);
+			border-radius: 12px;
+			padding: 28px;
+		}
+
+		.info-card-icon {
+			width: 40px;
+			height: 40px;
+			border-radius: 10px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-bottom: 16px;
+		}
+
+		.info-card-icon svg {
+			width: 20px;
+			height: 20px;
+		}
+
+		.icon-orange { background: rgba(232, 114, 58, 0.12); }
+		.icon-orange svg { stroke: var(--orange); }
+		.icon-blue { background: rgba(74, 158, 255, 0.12); }
+		.icon-blue svg { stroke: var(--blue); }
+		.icon-green { background: rgba(76, 175, 130, 0.12); }
+		.icon-green svg { stroke: var(--green); }
+
+		.info-card h3 {
+			font-size: 0.95rem;
+			font-weight: 600;
+			margin-bottom: 8px;
+		}
+
+		.info-card p, .info-card li {
+			font-size: 0.875rem;
+			color: var(--text-muted);
+			line-height: 1.6;
+		}
+
+		.info-card ul { list-style: none; }
+
 		.info-card a {
-			color: #4a9eff;
+			color: var(--blue);
 			text-decoration: none;
 		}
-		.info-card a:hover {
-			text-decoration: underline;
-		}
+
+		.info-card a:hover { text-decoration: underline; }
+
+		/* ── FOOTER ──────────────────────────────────────── */
 		footer {
-			text-align: center;
-			color: #5a5d72;
-			padding: 50px 0 30px;
+			background: var(--bg-surface);
+			border-top: 1px solid var(--border);
+			padding: 40px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			gap: 16px;
+		}
+
+		.footer-logo {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			text-decoration: none;
+			color: var(--text-muted);
+			font-size: 0.875rem;
+		}
+
+		.footer-logo-icon {
+			width: 28px;
+			height: 28px;
+			background: linear-gradient(135deg, var(--orange), var(--orange-light));
+			border-radius: 7px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.footer-logo-icon svg {
+			width: 16px;
+			height: 16px;
+			fill: white;
+		}
+
+		footer p {
+			color: var(--text-subtle);
+			font-size: 0.8rem;
+		}
+
+		/* ── RESPONSIVE ──────────────────────────────────── */
+		@media (max-width: 900px) {
+			nav { padding: 0 20px; }
+			.nav-links { display: none; }
+			section { padding: 64px 20px; }
+			.hero { padding: 70px 20px 56px; }
+
+			.spotlight-grid,
+			.spotlight-grid.reverse {
+				grid-template-columns: 1fr;
+				gap: 36px;
+				direction: ltr;
+			}
+
+			.spotlight-grid.reverse .spotlight-screenshot { order: -1; }
+
+			.gallery-grid { grid-template-columns: 1fr 1fr; }
+			.pricing-grid { grid-template-columns: 1fr; max-width: 480px; }
+			.info-grid { grid-template-columns: 1fr; }
+			footer { flex-direction: column; text-align: center; padding: 32px 20px; }
+		}
+
+		@media (max-width: 600px) {
+			.gallery-grid { grid-template-columns: 1fr; }
+			.hero-actions { flex-direction: column; align-items: center; }
+		}
+
+		/* ── LIGHTBOX ────────────────────────────────────── */
+		.lightbox {
+			display: none;
+			position: fixed;
+			inset: 0;
+			z-index: 1000;
+			align-items: center;
+			justify-content: center;
+			padding: 24px;
+		}
+
+		.lightbox.open {
+			display: flex;
+		}
+
+		.lightbox-backdrop {
+			position: absolute;
+			inset: 0;
+			background: rgba(5, 6, 15, 0.88);
+			backdrop-filter: blur(8px);
+			cursor: zoom-out;
+		}
+
+		.lightbox-content {
+			position: relative;
+			z-index: 1;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 16px;
+			max-width: min(1200px, 95vw);
+			animation: lb-in 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+		}
+
+		@keyframes lb-in {
+			from { opacity: 0; transform: scale(0.93); }
+			to   { opacity: 1; transform: scale(1); }
+		}
+
+		#lightbox-img {
+			display: block;
+			max-width: 100%;
+			max-height: calc(92vh - 60px);
+			width: auto;
+			height: auto;
+			border-radius: 10px;
+			border: 1px solid var(--border-light);
+			box-shadow: 0 32px 100px rgba(0, 0, 0, 0.7);
+		}
+
+		.lightbox-caption {
+			color: var(--text-muted);
 			font-size: 0.85rem;
+			text-align: center;
+		}
+
+		.lightbox-close {
+			position: fixed;
+			top: 20px;
+			right: 20px;
+			z-index: 2;
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			border: 1px solid var(--border-light);
+			background: var(--bg-card);
+			color: var(--text-muted);
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: background 0.15s, color 0.15s;
+		}
+
+		.lightbox-close:hover {
+			background: var(--bg-surface);
+			color: var(--text);
+		}
+
+		/* Make screenshot images feel clickable */
+		.screenshot-frame img,
+		.gallery-item img {
+			cursor: zoom-in;
 		}
 	</style>
 </head>
 <body>
-<div class="container">
-	<header>
-		<div class="logo">
-			<div class="logo-icon">
-				<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-					<path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.5L18.5 7 12 9.5 5.5 7 12 4.5zM4 8.5l7 3.5v7.5l-7-3.5V8.5zm16 0v7.5l-7
-  3.5v-7.5l7-3.5z"/>
-				</svg>
-			</div>
-			<h1>GitOps Pilot</h1>
-		</div>
-		<p class="tagline">Manage Argo CD applications directly from IntelliJ IDEA</p>
-		<a href="https://plugins.jetbrains.com/plugin/XXXXX-gitops-pilot" class="cta-button">
-			Get on JetBrains Marketplace
-		</a>
-	</header>
 
-	<div class="card">
-		<h2>Features</h2>
-		<div class="features">
-			<div class="feature-list">
-				<h3>Free</h3>
-				<ul>
-					<li>Secure token authentication</li>
-					<li>Real-time health & sync status</li>
-					<li>Kubernetes resource tree</li>
-					<li>Resource details & manifests</li>
-					<li>Search & filter applications</li>
-					<li>Open in Argo CD web UI</li>
-					<li>Self-signed certificate support</li>
-				</ul>
-			</div>
-			<div class="feature-list pro">
-				<h3>Pro <span class="price-tag">€79/year</span></h3>
-				<ul>
-					<li>Multi-server support</li>
-					<li>Sync with options (prune, dry-run)</li>
-					<li>Rollback to any revision</li>
-					<li>Auto-refresh & notifications</li>
-					<li>Live vs desired diff view</li>
-					<li>Exec into pods (terminal)</li>
-					<li>Bulk operations</li>
-					<li>Favorite applications</li>
-				</ul>
+<!-- ── NAV ──────────────────────────────────────────────── -->
+<nav>
+	<a href="#" class="nav-logo">
+		<div class="nav-logo-icon">
+			<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+				<path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.5L18.5 7 12 9.5 5.5 7 12 4.5zM4 8.5l7 3.5v7.5l-7-3.5V8.5zm16 0v7.5l-7 3.5v-7.5l7-3.5z"/>
+			</svg>
+		</div>
+		<span class="nav-logo-text">GitOps Cockpit</span>
+	</a>
+	<ul class="nav-links">
+		<li><a href="#features">Features</a></li>
+		<li><a href="#screenshots">Screenshots</a></li>
+		<li><a href="#pricing">Pricing</a></li>
+		<li><a href="https://plugins.jetbrains.com/plugin/XXXXX-gitops-cockpit" class="nav-cta">Get Plugin</a></li>
+	</ul>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────────── -->
+<section class="hero">
+	<div class="hero-grid"></div>
+	<div class="hero-content">
+		<div class="hero-badge">
+			<span></span>
+			IntelliJ IDEA Plugin
+		</div>
+		<h1>GitOps Cockpit<br><span>for ArgoCD</span></h1>
+		<p class="hero-desc">
+			Your complete ArgoCD control panel, right inside IntelliJ IDEA.
+			Monitor, sync, and manage your applications without leaving your editor.
+		</p>
+		<div class="hero-actions">
+			<a href="https://plugins.jetbrains.com/plugin/XXXXX-gitops-cockpit" class="btn-primary">
+				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+				</svg>
+				Get on JetBrains Marketplace
+			</a>
+			<a href="#features" class="btn-secondary">
+				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/>
+				</svg>
+				Explore Features
+			</a>
+		</div>
+
+		<div class="hero-screenshot">
+			<div class="screenshot-frame">
+				<div class="screenshot-bar">
+					<div class="dot dot-red"></div>
+					<div class="dot dot-yellow"></div>
+					<div class="dot dot-green"></div>
+				</div>
+				<img src="screenshots/ide-overview.png" alt="GitOps Cockpit overview in IntelliJ IDEA">
 			</div>
 		</div>
 	</div>
+</section>
 
+<!-- ── FEATURE SPOTLIGHTS ────────────────────────────────── -->
+<div id="features">
+
+	<!-- App Overview -->
+	<section class="spotlight">
+		<div class="section-inner">
+			<div class="spotlight-grid">
+				<div class="spotlight-text">
+					<p class="section-label">Application Management</p>
+					<h2 class="section-title">All your apps,<br>at a glance</h2>
+					<p class="section-desc">
+						See real-time health and sync status for every ArgoCD application.
+						Browse the full Kubernetes resource tree, inspect manifests, and
+						jump to the ArgoCD web UI — all without leaving IDEA.
+					</p>
+					<div class="feature-chips">
+						<div class="chip"><div class="chip-dot" style="background:var(--green)"></div>Health & sync status</div>
+						<div class="chip"><div class="chip-dot" style="background:var(--blue)"></div>Resource tree</div>
+						<div class="chip"><div class="chip-dot" style="background:var(--text-muted)"></div>Manifest viewer</div>
+						<div class="chip"><div class="chip-dot" style="background:var(--text-muted)"></div>Search & filter</div>
+					</div>
+				</div>
+				<div class="spotlight-screenshot">
+					<div class="screenshot-frame">
+						<div class="screenshot-bar">
+							<div class="dot dot-red"></div>
+							<div class="dot dot-yellow"></div>
+							<div class="dot dot-green"></div>
+						</div>
+						<img src="screenshots/app-overview.png" alt="Application overview panel">
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Diff View -->
+	<section class="spotlight">
+		<div class="section-inner">
+			<div class="spotlight-grid reverse">
+				<div class="spotlight-text">
+					<p class="section-label">Diff View</p>
+					<h2 class="section-title">Live vs desired —<br>side by side</h2>
+					<p class="section-desc">
+						Instantly compare the live state of any resource against
+						its desired state in Git. Switch between side-by-side and
+						unified diff views to pinpoint exactly what has drifted.
+					</p>
+					<div class="feature-chips">
+						<div class="chip"><div class="chip-dot" style="background:var(--orange)"></div>Side-by-side diff</div>
+						<div class="chip"><div class="chip-dot" style="background:var(--orange)"></div>Unified diff</div>
+						<div class="chip"><div class="chip-dot" style="background:var(--text-muted)"></div>Per-resource drill-down</div>
+					</div>
+				</div>
+				<div class="spotlight-screenshot">
+					<div class="screenshot-frame">
+						<div class="screenshot-bar">
+							<div class="dot dot-red"></div>
+							<div class="dot dot-yellow"></div>
+							<div class="dot dot-green"></div>
+						</div>
+						<img src="screenshots/diff-side-by-side.png" alt="Side-by-side diff view">
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Logs -->
+	<section class="spotlight">
+		<div class="section-inner">
+			<div class="spotlight-grid">
+				<div class="spotlight-text">
+					<p class="section-label">Log Streaming</p>
+					<h2 class="section-title">Real-time logs,<br>right here</h2>
+					<p class="section-desc">
+						Stream logs from any pod in your cluster without switching
+						to a terminal or browser. Filter by container, follow live
+						output, and search through log history instantly.
+					</p>
+					<div class="feature-chips">
+						<div class="chip"><div class="chip-dot" style="background:var(--blue)"></div>Live log streaming</div>
+						<div class="chip"><div class="chip-dot" style="background:var(--text-muted)"></div>Container selection</div>
+						<div class="chip"><div class="chip-dot" style="background:var(--text-muted)"></div>Log search</div>
+					</div>
+				</div>
+				<div class="spotlight-screenshot">
+					<div class="screenshot-frame">
+						<div class="screenshot-bar">
+							<div class="dot dot-red"></div>
+							<div class="dot dot-yellow"></div>
+							<div class="dot dot-green"></div>
+						</div>
+						<img src="screenshots/logs.png" alt="Real-time log streaming">
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Sync -->
+	<section class="spotlight">
+		<div class="section-inner">
+			<div class="spotlight-grid reverse">
+				<div class="spotlight-text">
+					<p class="section-label">Sync & Rollback</p>
+					<h2 class="section-title">Sync with precision,<br>roll back with confidence</h2>
+					<p class="section-desc">
+						Trigger syncs with full control — prune resources, run dry-runs,
+						or force apply. Browse the full revision history and roll back
+						to any previous deployment in seconds.
+					</p>
+					<div class="feature-chips">
+						<div class="chip"><div class="chip-dot" style="background:var(--orange)"></div>Prune & dry-run options</div>
+						<div class="chip"><div class="chip-dot" style="background:var(--orange)"></div>Revision history</div>
+						<div class="chip"><div class="chip-dot" style="background:var(--orange)"></div>One-click rollback</div>
+					</div>
+				</div>
+				<div class="spotlight-screenshot">
+					<div class="screenshot-frame">
+						<div class="screenshot-bar">
+							<div class="dot dot-red"></div>
+							<div class="dot dot-yellow"></div>
+							<div class="dot dot-green"></div>
+						</div>
+						<img src="screenshots/app-history.png" alt="Application revision history and rollback">
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+</div>
+
+<!-- ── SCREENSHOT GALLERY ─────────────────────────────────── -->
+<section id="screenshots" class="gallery-section">
+	<div class="section-inner">
+		<div class="gallery-header">
+			<p class="section-label">More Capabilities</p>
+			<h2 class="section-title">Everything you need in the cockpit</h2>
+			<p class="section-desc">From bulk operations to multi-server management, GitOps Cockpit covers your entire ArgoCD workflow.</p>
+		</div>
+		<div class="gallery-grid">
+			<div class="gallery-item">
+				<img src="screenshots/bulk.png" alt="Bulk operations">
+				<div class="gallery-caption">
+					<h4>Bulk Operations</h4>
+					<p>Sync or delete multiple applications at once</p>
+				</div>
+			</div>
+			<div class="gallery-item">
+				<img src="screenshots/server-selection.png" alt="Multi-server support">
+				<div class="gallery-caption">
+					<h4>Multi-Server Support</h4>
+					<p>Connect to multiple ArgoCD instances</p>
+				</div>
+			</div>
+			<div class="gallery-item">
+				<img src="screenshots/favorites.png" alt="Favorite applications">
+				<div class="gallery-caption">
+					<h4>Favorites</h4>
+					<p>Pin your most-used applications for quick access</p>
+				</div>
+			</div>
+			<div class="gallery-item">
+				<img src="screenshots/app-resources.png" alt="Kubernetes resource tree">
+				<div class="gallery-caption">
+					<h4>Resource Tree</h4>
+					<p>Navigate the full Kubernetes resource hierarchy</p>
+				</div>
+			</div>
+			<div class="gallery-item">
+				<img src="screenshots/app-events.png" alt="Application events">
+				<div class="gallery-caption">
+					<h4>Application Events</h4>
+					<p>Monitor Kubernetes events for each application</p>
+				</div>
+			</div>
+			<div class="gallery-item">
+				<img src="screenshots/resource-summary.png" alt="Resource summary">
+				<div class="gallery-caption">
+					<h4>Resource Details</h4>
+					<p>Inspect full resource summary and live manifest</p>
+				</div>
+			</div>
+			<div class="gallery-item">
+				<img src="screenshots/diff-unified.png" alt="Unified diff view">
+				<div class="gallery-caption">
+					<h4>Unified Diff</h4>
+					<p>Alternative compact diff view for quick scanning</p>
+				</div>
+			</div>
+			<div class="gallery-item">
+				<img src="screenshots/resource-events.png" alt="Resource events">
+				<div class="gallery-caption">
+					<h4>Resource Events</h4>
+					<p>Kubernetes events scoped to individual resources</p>
+				</div>
+			</div>
+			<div class="gallery-item">
+				<img src="screenshots/settings.png" alt="Plugin settings">
+				<div class="gallery-caption">
+					<h4>Settings</h4>
+					<p>Configure servers, tokens, and refresh intervals</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ── PRICING ────────────────────────────────────────────── -->
+<section id="pricing" class="pricing-section">
+	<div class="section-inner">
+		<div class="pricing-header">
+			<p class="section-label">Pricing</p>
+			<h2 class="section-title">Start free, unlock the full cockpit</h2>
+			<p class="section-desc">The core plugin is free. Upgrade to Pro for advanced features that serious GitOps workflows demand.</p>
+		</div>
+		<div class="pricing-grid">
+			<!-- Free -->
+			<div class="pricing-card">
+				<p class="plan-name">Free</p>
+				<p class="plan-price">€0 <span>forever</span></p>
+				<p class="plan-desc">Everything you need to get started with ArgoCD in IDEA.</p>
+				<ul class="plan-features">
+					<li>
+						<span class="check check-blue">
+							<svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5 6 4.5 9 10.5 3"/></svg>
+						</span>
+						Secure token authentication
+					</li>
+					<li>
+						<span class="check check-blue">
+							<svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5 6 4.5 9 10.5 3"/></svg>
+						</span>
+						Real-time health &amp; sync status
+					</li>
+					<li>
+						<span class="check check-blue">
+							<svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5 6 4.5 9 10.5 3"/></svg>
+						</span>
+						Kubernetes resource tree
+					</li>
+					<li>
+						<span class="check check-blue">
+							<svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5 6 4.5 9 10.5 3"/></svg>
+						</span>
+						Resource details &amp; manifests
+					</li>
+					<li>
+						<span class="check check-blue">
+							<svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5 6 4.5 9 10.5 3"/></svg>
+						</span>
+						Search &amp; filter applications
+					</li>
+					<li>
+						<span class="check check-blue">
+							<svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5 6 4.5 9 10.5 3"/></svg>
+						</span>
+						Open in ArgoCD web UI
+					</li>
+					<li>
+						<span class="check check-blue">
+							<svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5 6 4.5 9 10.5 3"/></svg>
+						</span>
+						Self-signed certificate support
+					</li>
+				</ul>
+				<a href="https://plugins.jetbrains.com/plugin/XXXXX-gitops-cockpit" class="plan-cta plan-cta-outline">Get Started Free</a>
+			</div>
+
+			<!-- Pro -->
+			<div class="pricing-card highlight">
+				<p class="plan-name pro">Pro</p>
+				<p class="plan-price">€79 <span>/ year</span></p>
+				<p class="plan-desc">Advanced features for teams and power users managing complex deployments.</p>
+				<ul class="plan-features">
+					<li>
+						<span class="check check-orange">
+							<svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5 6 4.5 9 10.5 3"/></svg>
+						</span>
+						Everything in Free
+					</li>
+					<li>
+						<span class="check check-orange">
+							<svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5 6 4.5 9 10.5 3"/></svg>
+						</span>
+						Multi-server support
+					</li>
+					<li>
+						<span class="check check-orange">
+							<svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5 6 4.5 9 10.5 3"/></svg>
+						</span>
+						Sync with options (prune, dry-run)
+					</li>
+					<li>
+						<span class="check check-orange">
+							<svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5 6 4.5 9 10.5 3"/></svg>
+						</span>
+						Rollback to any revision
+					</li>
+					<li>
+						<span class="check check-orange">
+							<svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5 6 4.5 9 10.5 3"/></svg>
+						</span>
+						Auto-refresh &amp; notifications
+					</li>
+					<li>
+						<span class="check check-orange">
+							<svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5 6 4.5 9 10.5 3"/></svg>
+						</span>
+						Live vs desired diff view
+					</li>
+					<li>
+						<span class="check check-orange">
+							<svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5 6 4.5 9 10.5 3"/></svg>
+						</span>
+						Exec into pods (terminal)
+					</li>
+					<li>
+						<span class="check check-orange">
+							<svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5 6 4.5 9 10.5 3"/></svg>
+						</span>
+						Bulk operations
+					</li>
+					<li>
+						<span class="check check-orange">
+							<svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5 6 4.5 9 10.5 3"/></svg>
+						</span>
+						Favorite applications
+					</li>
+				</ul>
+				<a href="https://plugins.jetbrains.com/plugin/XXXXX-gitops-cockpit" class="plan-cta plan-cta-primary">Upgrade to Pro</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ── INFO ──────────────────────────────────────────────── -->
+<section class="info-section">
 	<div class="info-grid">
 		<div class="info-card">
-			<h2>Requirements</h2>
+			<div class="info-card-icon icon-orange">
+				<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+					<rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+				</svg>
+			</div>
+			<h3>Requirements</h3>
 			<ul>
 				<li>IntelliJ IDEA 2025.2+</li>
-				<li>Argo CD server v2.0+</li>
+				<li>ArgoCD server v2.0+</li>
 			</ul>
 		</div>
 		<div class="info-card">
-			<h2>Support</h2>
-			<p>Questions or issues?<br>
-				<a href="mailto:m.latta.pro@gmail.com">m.latta.pro@gmail.com</a></p>
+			<div class="info-card-icon icon-blue">
+				<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+				</svg>
+			</div>
+			<h3>Support</h3>
+			<p>Questions, bugs, or feedback?<br>
+				Reach out at <a href="mailto:m.latta.pro@gmail.com">m.latta.pro@gmail.com</a>
+			</p>
+		</div>
+		<div class="info-card">
+			<div class="info-card-icon icon-green">
+				<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+					<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+				</svg>
+			</div>
+			<h3>Privacy</h3>
+			<p>No telemetry. No data collection. Your ArgoCD tokens stay on your machine.</p>
 		</div>
 	</div>
+</section>
 
-	<footer>
-		<p>&copy; 2026 MSoloDev</p>
-	</footer>
+<!-- ── LIGHTBOX ───────────────────────────────────────────── -->
+<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image preview">
+	<button class="lightbox-close" id="lightbox-close" aria-label="Close">
+		<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+			<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+		</svg>
+	</button>
+	<div class="lightbox-backdrop" id="lightbox-backdrop"></div>
+	<div class="lightbox-content">
+		<img id="lightbox-img" src="" alt="">
+		<p id="lightbox-caption" class="lightbox-caption"></p>
+	</div>
 </div>
+
+<!-- ── FOOTER ────────────────────────────────────────────── -->
+<footer>
+	<a href="#" class="footer-logo">
+		<div class="footer-logo-icon">
+			<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+				<path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.5L18.5 7 12 9.5 5.5 7 12 4.5zM4 8.5l7 3.5v7.5l-7-3.5V8.5zm16 0v7.5l-7 3.5v-7.5l7-3.5z"/>
+			</svg>
+		</div>
+		GitOps Cockpit for ArgoCD
+	</a>
+	<p>&copy; 2026 Michael Latta Software. All rights reserved.</p>
+</footer>
+
+<script>
+	(function () {
+		const lightbox   = document.getElementById('lightbox');
+		const lbImg      = document.getElementById('lightbox-img');
+		const lbCaption  = document.getElementById('lightbox-caption');
+		const lbClose    = document.getElementById('lightbox-close');
+		const lbBackdrop = document.getElementById('lightbox-backdrop');
+
+		function open(src, alt, caption) {
+			lbImg.src = src;
+			lbImg.alt = alt || '';
+			lbCaption.textContent = caption || '';
+			lightbox.classList.add('open');
+			document.body.style.overflow = 'hidden';
+		}
+
+		function close() {
+			lightbox.classList.remove('open');
+			document.body.style.overflow = '';
+			// Delay clearing src so the close animation looks clean
+			setTimeout(() => { lbImg.src = ''; }, 250);
+		}
+
+		// Click on any screenshot frame image
+		document.querySelectorAll('.screenshot-frame img').forEach(img => {
+			img.addEventListener('click', () => open(img.src, img.alt, img.alt));
+		});
+
+		// Click on any gallery item image — include its caption text
+		document.querySelectorAll('.gallery-item').forEach(item => {
+			const img     = item.querySelector('img');
+			const title   = item.querySelector('.gallery-caption h4');
+			const desc    = item.querySelector('.gallery-caption p');
+			const caption = [title?.textContent, desc?.textContent].filter(Boolean).join(' — ');
+			img.addEventListener('click', () => open(img.src, img.alt, caption));
+		});
+
+		lbClose.addEventListener('click', close);
+		lbBackdrop.addEventListener('click', close);
+		document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+	})();
+</script>
 </body>
 </html>
