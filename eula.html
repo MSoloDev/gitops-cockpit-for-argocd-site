@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>EULA – GitOps Cockpit for ArgoCD</title>
+	<style>
+		:root {
+			--bg: #0d0f1e;
+			--bg-surface: #13152a;
+			--bg-card: #1a1c35;
+			--border: #252840;
+			--border-light: #2e3255;
+			--text: #f0f2ff;
+			--text-muted: #8b90b3;
+			--text-subtle: #555878;
+			--orange: #e8723a;
+			--orange-light: #f59542;
+			--orange-glow: rgba(232, 114, 58, 0.25);
+			--blue: #4a9eff;
+			--blue-glow: rgba(74, 158, 255, 0.15);
+			--green: #4caf82;
+			--radius: 12px;
+		}
+
+		* { margin: 0; padding: 0; box-sizing: border-box; }
+
+		html { scroll-behavior: smooth; }
+
+		body {
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+			background: var(--bg);
+			color: var(--text);
+			line-height: 1.6;
+			overflow-x: hidden;
+		}
+
+		/* ── NAV ─────────────────────────────────────────── */
+		nav {
+			position: sticky;
+			top: 0;
+			z-index: 100;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0 40px;
+			height: 64px;
+			background: rgba(13, 15, 30, 0.85);
+			backdrop-filter: blur(12px);
+			border-bottom: 1px solid var(--border);
+		}
+
+		.nav-logo {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			text-decoration: none;
+			color: var(--text);
+		}
+
+		.nav-logo-icon {
+			width: 32px;
+			height: 32px;
+			background: linear-gradient(135deg, var(--orange), var(--orange-light));
+			border-radius: 8px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-shrink: 0;
+		}
+
+		.nav-logo-icon svg {
+			width: 18px;
+			height: 18px;
+			fill: white;
+		}
+
+		.nav-logo-text {
+			font-size: 0.95rem;
+			font-weight: 600;
+			letter-spacing: -0.01em;
+		}
+
+		.nav-links {
+			display: flex;
+			align-items: center;
+			gap: 32px;
+			list-style: none;
+		}
+
+		.nav-links a {
+			color: var(--text-muted);
+			text-decoration: none;
+			font-size: 0.9rem;
+			transition: color 0.2s;
+		}
+
+		.nav-links a:hover { color: var(--text); }
+
+		.nav-cta {
+			background: linear-gradient(135deg, var(--orange), var(--orange-light));
+			color: white !important;
+			padding: 8px 20px;
+			border-radius: 8px;
+			font-weight: 600;
+			font-size: 0.875rem !important;
+			transition: opacity 0.2s, transform 0.2s !important;
+		}
+
+		.nav-cta:hover { opacity: 0.9; transform: translateY(-1px); color: white !important; }
+
+		/* ── EULA CONTENT ─────────────────────────────────── */
+		.eula-wrapper {
+			max-width: 800px;
+			margin: 60px auto 80px;
+			padding: 0 40px;
+		}
+
+		.eula-wrapper h1 {
+			font-size: 2rem;
+			font-weight: 700;
+			letter-spacing: -0.02em;
+			margin-bottom: 8px;
+		}
+
+		.eula-wrapper .effective-date {
+			color: var(--text-muted);
+			font-size: 0.9rem;
+			margin-bottom: 32px;
+		}
+
+		.eula-wrapper .intro {
+			color: var(--text-muted);
+			margin-bottom: 40px;
+			padding-bottom: 32px;
+			border-bottom: 1px solid var(--border);
+		}
+
+		.eula-wrapper .intro strong {
+			color: var(--text);
+		}
+
+		.eula-wrapper h2 {
+			font-size: 1.15rem;
+			font-weight: 600;
+			color: var(--orange-light);
+			margin: 36px 0 12px;
+		}
+
+		.eula-wrapper h3 {
+			font-size: 1rem;
+			font-weight: 600;
+			color: var(--text);
+			margin: 20px 0 8px;
+		}
+
+		.eula-wrapper p {
+			color: var(--text-muted);
+			margin-bottom: 12px;
+		}
+
+		.eula-wrapper ul {
+			list-style: none;
+			margin: 8px 0 16px;
+			padding: 0;
+		}
+
+		.eula-wrapper ul li {
+			color: var(--text-muted);
+			padding: 4px 0 4px 20px;
+			position: relative;
+		}
+
+		.eula-wrapper ul li::before {
+			content: "–";
+			position: absolute;
+			left: 0;
+			color: var(--text-subtle);
+		}
+
+		.eula-wrapper .uppercase-block {
+			color: var(--text-muted);
+			background: var(--bg-card);
+			border: 1px solid var(--border);
+			border-radius: var(--radius);
+			padding: 20px 24px;
+			margin-bottom: 12px;
+			font-size: 0.875rem;
+			line-height: 1.7;
+		}
+
+		.eula-wrapper a {
+			color: var(--blue);
+			text-decoration: none;
+		}
+
+		.eula-wrapper a:hover {
+			text-decoration: underline;
+		}
+
+		/* ── FOOTER ──────────────────────────────────────── */
+		footer {
+			background: var(--bg-surface);
+			border-top: 1px solid var(--border);
+			padding: 40px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 16px;
+		}
+
+		.footer-logo {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			text-decoration: none;
+			color: var(--text-muted);
+			font-size: 0.875rem;
+		}
+
+		.footer-logo-icon {
+			width: 28px;
+			height: 28px;
+			background: linear-gradient(135deg, var(--orange), var(--orange-light));
+			border-radius: 6px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.footer-logo-icon svg {
+			width: 16px;
+			height: 16px;
+			fill: white;
+		}
+
+		footer p {
+			color: var(--text-subtle);
+			font-size: 0.8rem;
+		}
+
+		@media (max-width: 768px) {
+			nav { padding: 0 20px; }
+			.eula-wrapper { padding: 0 20px; margin-top: 40px; }
+			footer { flex-direction: column; text-align: center; padding: 32px 20px; }
+		}
+	</style>
+</head>
+<body>
+
+<!-- ── NAV ──────────────────────────────────────────────── -->
+<nav>
+	<a href="index.html" class="nav-logo">
+		<div class="nav-logo-icon">
+			<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+				<path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.5L18.5 7 12 9.5 5.5 7 12 4.5zM4 8.5l7 3.5v7.5l-7-3.5V8.5zm16 0v7.5l-7 3.5v-7.5l7-3.5z"/>
+			</svg>
+		</div>
+		<span class="nav-logo-text">GitOps Cockpit</span>
+	</a>
+	<ul class="nav-links">
+		<li><a href="index.html#features">Features</a></li>
+		<li><a href="index.html#screenshots">Screenshots</a></li>
+		<li><a href="index.html#pricing">Pricing</a></li>
+		<li><a href="https://plugins.jetbrains.com/plugin/XXXXX-gitops-cockpit" class="nav-cta">Get Plugin</a></li>
+	</ul>
+</nav>
+
+<!-- ── EULA ──────────────────────────────────────────────── -->
+<div class="eula-wrapper">
+	<h1>End-User License Agreement</h1>
+	<p class="effective-date">Effective date: March 16, 2026</p>
+
+	<p class="intro">
+		This End-User License Agreement ("Agreement") is a legal agreement between you ("User") and
+		<strong>Michael Latta Software</strong> ("Licensor") for the IntelliJ IDEA plugin
+		<strong>GitOps Cockpit for Argo CD</strong> ("Plugin"), distributed through the JetBrains Marketplace.
+		<br><br>
+		<strong>JetBrains is not a party to this Agreement.</strong> The Plugin is developed and maintained solely by the Licensor.
+	</p>
+
+	<h2>1. Grant of License</h2>
+
+	<h3>1.1 Free Tier</h3>
+	<p>The Licensor grants the User a non-exclusive, non-transferable, revocable license to install and use the free features of the Plugin at no charge, subject to the terms of this Agreement.</p>
+
+	<h3>1.2 Pro Tier (Paid Subscription)</h3>
+	<p>Upon purchase of a Pro subscription ("Subscription") through the JetBrains Marketplace, the Licensor grants the User a non-exclusive, non-transferable license to use the Pro features of the Plugin for the duration of the active Subscription period. The Subscription is billed annually.</p>
+
+	<h3>1.3 Subscription Expiration</h3>
+	<p>Upon expiration or cancellation of a Subscription, access to Pro features will be deactivated. The User may continue to use the free features of the Plugin.</p>
+
+	<h2>2. Restrictions</h2>
+	<p>The User shall not:</p>
+	<ul>
+		<li>Copy, modify, adapt, translate, or create derivative works of the Plugin.</li>
+		<li>Reverse engineer, decompile, disassemble, or otherwise attempt to discover the source code of the Plugin, except to the extent permitted by applicable law.</li>
+		<li>Redistribute, sublicense, rent, lease, or lend the Plugin to third parties.</li>
+		<li>Remove or alter any proprietary notices, labels, or marks on the Plugin.</li>
+		<li>Use the Plugin in any way that violates applicable laws or regulations.</li>
+	</ul>
+
+	<h2>3. Intellectual Property</h2>
+	<p>The Plugin and all associated intellectual property rights are and remain the exclusive property of the Licensor. This Agreement does not convey any ownership rights to the User.</p>
+
+	<h2>4. Data and Privacy</h2>
+	<p>The Plugin does not collect, transmit, or store personal data. Authentication tokens for Argo CD servers are stored locally on the User's machine using the operating system's secure credential storage (e.g., OS keychain via IntelliJ PasswordSafe). The Licensor has no access to the User's credentials or Argo CD data.</p>
+
+	<h2>5. Disclaimer of Warranties</h2>
+	<div class="uppercase-block">
+		THE PLUGIN IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. THE LICENSOR DOES NOT WARRANT THAT THE PLUGIN WILL BE ERROR-FREE OR UNINTERRUPTED.
+	</div>
+
+	<h2>6. Limitation of Liability</h2>
+	<div class="uppercase-block">
+		TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL THE LICENSOR BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS OR REVENUE, WHETHER INCURRED DIRECTLY OR INDIRECTLY, OR ANY LOSS OF DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES, ARISING FROM THE USER'S USE OF OR INABILITY TO USE THE PLUGIN. THE LICENSOR'S TOTAL LIABILITY SHALL NOT EXCEED THE AMOUNT PAID BY THE USER FOR THE PLUGIN IN THE TWELVE (12) MONTHS PRECEDING THE CLAIM.
+	</div>
+
+	<h2>7. Termination</h2>
+	<p>This Agreement is effective until terminated. The Licensor may terminate this Agreement if the User breaches any term. Upon termination, the User must cease all use of the Plugin and destroy all copies. Sections 3, 5, 6, and 8 survive termination.</p>
+
+	<h2>8. Governing Law</h2>
+	<p>This Agreement shall be governed by and construed in accordance with the laws of Germany. Any disputes arising under this Agreement shall be subject to the exclusive jurisdiction of the courts of Germany.</p>
+
+	<h2>9. Changes to this Agreement</h2>
+	<p>The Licensor reserves the right to modify this Agreement at any time. Updated terms will be posted at <a href="https://msolodev.github.io/gitops-cockpit-for-argocd-site/eula">https://msolodev.github.io/gitops-cockpit-for-argocd-site/eula</a>. Continued use of the Plugin after changes constitutes acceptance of the revised terms.</p>
+
+	<h2>10. Contact</h2>
+	<p>For questions regarding this Agreement, contact: <a href="mailto:m.latta.pro@gmail.com">m.latta.pro@gmail.com</a></p>
+</div>
+
+<!-- ── FOOTER ────────────────────────────────────────────── -->
+<footer>
+	<a href="index.html" class="footer-logo">
+		<div class="footer-logo-icon">
+			<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+				<path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.5L18.5 7 12 9.5 5.5 7 12 4.5zM4 8.5l7 3.5v7.5l-7-3.5V8.5zm16 0v7.5l-7 3.5v-7.5l7-3.5z"/>
+			</svg>
+		</div>
+		GitOps Cockpit for ArgoCD
+	</a>
+	<p>&copy; 2026 Michael Latta Software. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
