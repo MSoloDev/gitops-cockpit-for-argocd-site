@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Privacy Policy – GitOps Cockpit for ArgoCD</title>
+	<style>
+		:root {
+			--bg: #0d0f1e;
+			--bg-surface: #13152a;
+			--bg-card: #1a1c35;
+			--border: #252840;
+			--border-light: #2e3255;
+			--text: #f0f2ff;
+			--text-muted: #8b90b3;
+			--text-subtle: #555878;
+			--orange: #e8723a;
+			--orange-light: #f59542;
+			--orange-glow: rgba(232, 114, 58, 0.25);
+			--blue: #4a9eff;
+			--blue-glow: rgba(74, 158, 255, 0.15);
+			--green: #4caf82;
+			--radius: 12px;
+		}
+
+		* { margin: 0; padding: 0; box-sizing: border-box; }
+
+		html { scroll-behavior: smooth; }
+
+		body {
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+			background: var(--bg);
+			color: var(--text);
+			line-height: 1.6;
+			overflow-x: hidden;
+		}
+
+		/* ── NAV ─────────────────────────────────────────── */
+		nav {
+			position: sticky;
+			top: 0;
+			z-index: 100;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0 40px;
+			height: 64px;
+			background: rgba(13, 15, 30, 0.85);
+			backdrop-filter: blur(12px);
+			border-bottom: 1px solid var(--border);
+		}
+
+		.nav-logo {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			text-decoration: none;
+			color: var(--text);
+		}
+
+		.nav-logo-icon {
+			width: 32px;
+			height: 32px;
+			background: linear-gradient(135deg, var(--orange), var(--orange-light));
+			border-radius: 8px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-shrink: 0;
+		}
+
+		.nav-logo-icon svg {
+			width: 18px;
+			height: 18px;
+			fill: white;
+		}
+
+		.nav-logo-text {
+			font-size: 0.95rem;
+			font-weight: 600;
+			letter-spacing: -0.01em;
+		}
+
+		.nav-links {
+			display: flex;
+			align-items: center;
+			gap: 32px;
+			list-style: none;
+		}
+
+		.nav-links a {
+			color: var(--text-muted);
+			text-decoration: none;
+			font-size: 0.9rem;
+			transition: color 0.2s;
+		}
+
+		.nav-links a:hover { color: var(--text); }
+
+		.nav-cta {
+			background: linear-gradient(135deg, var(--orange), var(--orange-light));
+			color: white !important;
+			padding: 8px 20px;
+			border-radius: 8px;
+			font-weight: 600;
+			font-size: 0.875rem !important;
+			transition: opacity 0.2s, transform 0.2s !important;
+		}
+
+		.nav-cta:hover { opacity: 0.9; transform: translateY(-1px); color: white !important; }
+
+		/* ── PAGE CONTENT ─────────────────────────────────── */
+		.page-wrapper {
+			max-width: 800px;
+			margin: 60px auto 80px;
+			padding: 0 40px;
+		}
+
+		.page-wrapper h1 {
+			font-size: 2rem;
+			font-weight: 700;
+			letter-spacing: -0.02em;
+			margin-bottom: 8px;
+		}
+
+		.page-wrapper .effective-date {
+			color: var(--text-muted);
+			font-size: 0.9rem;
+			margin-bottom: 40px;
+			padding-bottom: 32px;
+			border-bottom: 1px solid var(--border);
+		}
+
+		.page-wrapper h2 {
+			font-size: 1.15rem;
+			font-weight: 600;
+			color: var(--orange-light);
+			margin: 36px 0 12px;
+		}
+
+		.page-wrapper p {
+			color: var(--text-muted);
+			margin-bottom: 12px;
+		}
+
+		.page-wrapper a {
+			color: var(--blue);
+			text-decoration: none;
+		}
+
+		.page-wrapper a:hover {
+			text-decoration: underline;
+		}
+
+		/* ── FOOTER ──────────────────────────────────────── */
+		footer {
+			background: var(--bg-surface);
+			border-top: 1px solid var(--border);
+			padding: 40px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 16px;
+		}
+
+		.footer-logo {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			text-decoration: none;
+			color: var(--text-muted);
+			font-size: 0.875rem;
+		}
+
+		.footer-logo-icon {
+			width: 28px;
+			height: 28px;
+			background: linear-gradient(135deg, var(--orange), var(--orange-light));
+			border-radius: 6px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.footer-logo-icon svg {
+			width: 16px;
+			height: 16px;
+			fill: white;
+		}
+
+		footer p {
+			color: var(--text-subtle);
+			font-size: 0.8rem;
+		}
+
+		@media (max-width: 768px) {
+			nav { padding: 0 20px; }
+			.page-wrapper { padding: 0 20px; margin-top: 40px; }
+			footer { flex-direction: column; text-align: center; padding: 32px 20px; }
+		}
+	</style>
+</head>
+<body>
+
+<!-- ── NAV ──────────────────────────────────────────────── -->
+<nav>
+	<a href="/gitops-cockpit-for-argocd-site" class="nav-logo">
+		<div class="nav-logo-icon">
+			<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+				<path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.5L18.5 7 12 9.5 5.5 7 12 4.5zM4 8.5l7 3.5v7.5l-7-3.5V8.5zm16 0v7.5l-7 3.5v-7.5l7-3.5z"/>
+			</svg>
+		</div>
+		<span class="nav-logo-text">GitOps Cockpit</span>
+	</a>
+	<ul class="nav-links">
+		<li><a href="index.html#features">Features</a></li>
+		<li><a href="index.html#screenshots">Screenshots</a></li>
+		<li><a href="index.html#pricing">Pricing</a></li>
+		<li><a href="https://plugins.jetbrains.com/plugin/30719-gitops-cockpit-for-argo-cd" class="nav-cta">Get Plugin</a></li>
+	</ul>
+</nav>
+
+<!-- ── PRIVACY ───────────────────────────────────────────── -->
+<div class="page-wrapper">
+	<h1>Privacy Policy</h1>
+	<p class="effective-date">GitOps Cockpit for Argo CD &nbsp;·&nbsp; Effective date: March 16, 2026</p>
+
+	<h2>Data Collection</h2>
+	<p>GitOps Cockpit for Argo CD does not collect, transmit, or store any personal data. The plugin operates entirely within your local IDE environment.</p>
+
+	<h2>Credentials</h2>
+	<p>Authentication tokens for Argo CD servers are stored locally on your machine using the operating system's secure credential storage (OS keychain via IntelliJ PasswordSafe). The developer has no access to your credentials.</p>
+
+	<h2>Network Communication</h2>
+	<p>The plugin communicates only with the Argo CD server URLs that you configure. No data is sent to the plugin developer, Michael Latta Software, or any third party.</p>
+
+	<h2>Analytics and Tracking</h2>
+	<p>The plugin does not include any analytics, telemetry, tracking, or crash reporting.</p>
+
+	<h2>Third-Party Services</h2>
+	<p>The plugin does not integrate with or send data to any third-party services other than the Argo CD servers you explicitly configure.</p>
+
+	<h2>Changes to This Policy</h2>
+	<p>Updates to this policy will be posted at <a href="https://msolodev.github.io/gitops-cockpit-for-argocd-site/privacy">https://msolodev.github.io/gitops-cockpit-for-argocd-site/privacy</a>.</p>
+
+	<h2>Contact</h2>
+	<p>For questions regarding this policy, contact: <a href="mailto:m.latta.pro@gmail.com">m.latta.pro@gmail.com</a></p>
+</div>
+
+<!-- ── FOOTER ────────────────────────────────────────────── -->
+<footer>
+	<a href="index.html" class="footer-logo">
+		<div class="footer-logo-icon">
+			<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+				<path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.5L18.5 7 12 9.5 5.5 7 12 4.5zM4 8.5l7 3.5v7.5l-7-3.5V8.5zm16 0v7.5l-7 3.5v-7.5l7-3.5z"/>
+			</svg>
+		</div>
+		GitOps Cockpit for ArgoCD
+	</a>
+	<div style="display:flex;gap:20px;align-items:center;">
+		<a href="/gitops-cockpit-for-argocd-site/eula" style="color:var(--text-subtle);font-size:0.8rem;text-decoration:none;">EULA</a>
+		<a href="/gitops-cockpit-for-argocd-site/privacy" style="color:var(--text-subtle);font-size:0.8rem;text-decoration:none;">Privacy Policy</a>
+	</div>
+	<p>&copy; 2026 Michael Latta Software. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
