@@ -3,7 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>GitOps Cockpit for ArgoCD</title>
+	<title>GitOps Cockpit for Argo CD – JetBrains IDE Plugin</title>
+	<meta name="description" content="Inspect Argo CD applications, Kubernetes resources, and deployments from a compatible JetBrains IDE. Start Free or try Pro free for 30 days.">
 	<style>
 		:root {
 			--bg: #0d0f1e;
@@ -140,7 +141,7 @@
 
 		.hero-content {
 			position: relative;
-			max-width: 760px;
+			max-width: 1200px;
 			margin: 0 auto;
 		}
 
@@ -279,6 +280,7 @@
 
 		.screenshot-frame img {
 			width: 100%;
+			height: auto;
 			display: block;
 		}
 
@@ -409,6 +411,7 @@
 
 		.gallery-item img {
 			width: 100%;
+			height: auto;
 			display: block;
 		}
 
@@ -465,7 +468,7 @@
 		}
 
 		.pricing-card.highlight::before {
-			content: "Most Popular";
+			content: "30-Day Pro Trial";
 			position: absolute;
 			top: -12px;
 			left: 50%;
@@ -536,8 +539,8 @@
 			margin-top: 1px;
 		}
 
-		.check-blue { background: rgba(74, 158, 255, 0.15); }
-		.check-orange { background: rgba(232, 114, 58, 0.15); }
+		.check-blue { background: rgba(74, 158, 255, 0.15); color: var(--blue); }
+		.check-orange { background: rgba(232, 114, 58, 0.15); color: var(--orange); }
 
 		.check svg {
 			width: 10px;
@@ -579,6 +582,25 @@
 			transform: translateY(-1px);
 			box-shadow: 0 8px 28px var(--orange-glow);
 		}
+
+		.tier-label {
+			display: inline-block;
+			margin-left: 8px;
+			padding: 2px 8px;
+			border-radius: 100px;
+			background: rgba(74, 158, 255, 0.15);
+			color: var(--blue);
+			font-size: 0.72rem;
+			font-weight: 700;
+			vertical-align: middle;
+		}
+
+		.tier-label.pro { background: rgba(232, 114, 58, 0.15); color: var(--orange-light); }
+		.plan-note, .pricing-link { display: block; text-align: center; font-size: 0.82rem; line-height: 1.5; }
+		.plan-note { margin-top: 12px; color: var(--text-muted); }
+		.pricing-link { margin-top: 8px; color: var(--blue); }
+		.info-actions { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 12px; }
+		.gallery-caption .tier-label { margin-left: 6px; }
 
 		/* ── INFO STRIP ──────────────────────────────────── */
 		.info-section {
@@ -894,7 +916,7 @@
 		<li><a href="#features">Features</a></li>
 		<li><a href="#screenshots">Screenshots</a></li>
 		<li><a href="#pricing">Pricing</a></li>
-		<li><a href="https://plugins.jetbrains.com/plugin/30719-gitops-cockpit-for-argo-cd" class="nav-cta">Get Plugin</a></li>
+		<li><a href="https://plugins.jetbrains.com/plugin/30719-gitops-cockpit-for-argo-cd" class="nav-cta">Try Pro free for 30 days</a></li>
 	</ul>
 </nav>
 
@@ -904,25 +926,25 @@
 	<div class="hero-content">
 		<div class="hero-badge">
 			<span></span>
-			IntelliJ IDEA Plugin
+			Argo CD for JetBrains IDEs
 		</div>
-		<h1>GitOps Cockpit<br><span>for ArgoCD</span></h1>
+		<h1>GitOps Cockpit<br><span>for Argo CD</span></h1>
 		<p class="hero-desc">
-			Your complete ArgoCD control panel, right inside IntelliJ IDEA.
-			Monitor, sync, and manage your applications without leaving your editor.
+			See application health, inspect Kubernetes resources, and manage Argo CD deployments
+			from a compatible JetBrains IDE.
 		</p>
 		<div class="hero-actions">
 			<a href="https://plugins.jetbrains.com/plugin/30719-gitops-cockpit-for-argo-cd" class="btn-primary">
 				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
 					<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
 				</svg>
-				Get on JetBrains Marketplace
+				Try Pro free for 30 days
 			</a>
-			<a href="#features" class="btn-secondary">
+			<a href="https://plugins.jetbrains.com/plugin/30719-gitops-cockpit-for-argo-cd" class="btn-secondary">
 				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 					<circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/>
 				</svg>
-				Explore Features
+				Start Free
 			</a>
 		</div>
 
@@ -933,7 +955,7 @@
 					<div class="dot dot-yellow"></div>
 					<div class="dot dot-green"></div>
 				</div>
-				<img src="screenshots/ide-overview.png" alt="GitOps Cockpit overview in IntelliJ IDEA">
+				<img src="screenshots/ide-overview.png" width="1279" height="799" alt="GitOps Cockpit application list and health status in a JetBrains IDE">
 			</div>
 		</div>
 	</div>
@@ -943,12 +965,12 @@
 <section class="demo-section">
 	<div class="section-inner">
 		<div class="demo-header">
-			<p class="section-label">See It In Action</p>
-			<h2 class="section-title">From alert to healthy — in seconds</h2>
+			<p class="section-label">See It In Action <span class="tier-label pro">Pro</span></p>
+			<h2 class="section-title">From out of sync to healthy</h2>
 			<p class="section-desc">
-				GitOps Cockpit watches your cluster continuously. The moment an application
-				drifts out of sync, you get an IDE notification. One click triggers the sync —
-				and you watch every resource reconcile back to healthy, right in your editor.
+				With Pro auto-refresh, get IDE notifications when application health or sync
+				status changes. Trigger a sync from the plugin and follow the updated
+				resource status in your IDE.
 			</p>
 		</div>
 		<div class="demo-frame">
@@ -957,7 +979,7 @@
 					<div class="demo-step-num">1</div>
 					<div>
 						<strong>Out-of-sync detected</strong>
-						<span>IDE notification fires instantly</span>
+						<span>IDE notification shows the change</span>
 					</div>
 				</div>
 				<div class="demo-step-arrow">→</div>
@@ -983,7 +1005,7 @@
 					<div class="dot dot-yellow"></div>
 					<div class="dot dot-green"></div>
 				</div>
-				<img src="screenshots/sync.gif" alt="Real-time sync flow: out-of-sync notification, manual sync, back to healthy">
+				<img src="screenshots/sync.gif" width="800" height="500" alt="Pro workflow: out-of-sync alert, manual sync, and healthy application status">
 			</div>
 		</div>
 	</div>
@@ -997,12 +1019,12 @@
 		<div class="section-inner">
 			<div class="spotlight-grid">
 				<div class="spotlight-text">
-					<p class="section-label">Application Management</p>
+					<p class="section-label">Application Management <span class="tier-label">Free</span></p>
 					<h2 class="section-title">All your apps,<br>at a glance</h2>
 					<p class="section-desc">
-						See real-time health and sync status for every ArgoCD application.
+						See health and sync status for every Argo CD application.
 						Browse the full Kubernetes resource tree, inspect manifests, and
-						jump to the ArgoCD web UI — all without leaving IDEA.
+						jump to the Argo CD web UI — all without leaving your IDE.
 					</p>
 					<div class="feature-chips">
 						<div class="chip"><div class="chip-dot" style="background:var(--green)"></div>Health & sync status</div>
@@ -1018,7 +1040,7 @@
 							<div class="dot dot-yellow"></div>
 							<div class="dot dot-green"></div>
 						</div>
-						<img src="screenshots/app-overview.png" alt="Application overview panel">
+						<img src="screenshots/app-overview.png" width="1279" height="799" alt="Application list showing Argo CD health and sync status">
 					</div>
 				</div>
 			</div>
@@ -1030,11 +1052,11 @@
 		<div class="section-inner">
 			<div class="spotlight-grid reverse">
 				<div class="spotlight-text">
-					<p class="section-label">Diff View</p>
+					<p class="section-label">Diff View <span class="tier-label pro">Pro</span></p>
 					<h2 class="section-title">Live vs desired —<br>side by side</h2>
 					<p class="section-desc">
 						Instantly compare the live state of any resource against
-						its desired state in Git. Switch between side-by-side and
+						the desired manifest reported by Argo CD. Switch between side-by-side and
 						unified diff views to pinpoint exactly what has drifted.
 					</p>
 					<div class="feature-chips">
@@ -1050,7 +1072,7 @@
 							<div class="dot dot-yellow"></div>
 							<div class="dot dot-green"></div>
 						</div>
-						<img src="screenshots/diff-side-by-side.png" alt="Side-by-side diff view">
+						<img src="screenshots/diff-side-by-side.png" width="1279" height="799" alt="Pro diff comparing desired and live Kubernetes manifests">
 					</div>
 				</div>
 			</div>
@@ -1062,15 +1084,14 @@
 		<div class="section-inner">
 			<div class="spotlight-grid">
 				<div class="spotlight-text">
-					<p class="section-label">Log Streaming</p>
-					<h2 class="section-title">Real-time logs,<br>right here</h2>
+					<p class="section-label">Pod Logs <span class="tier-label">Free</span></p>
+					<h2 class="section-title">Inspect pod logs,<br>right here</h2>
 					<p class="section-desc">
-						Stream logs from any pod in your cluster without switching
-						to a terminal or browser. Filter by container, follow live
-						output, and search through log history instantly.
+						Fetch and inspect pod logs from the resource view without switching
+						to a terminal or browser. Choose a container and search the loaded output.
 					</p>
 					<div class="feature-chips">
-						<div class="chip"><div class="chip-dot" style="background:var(--blue)"></div>Live log streaming</div>
+						<div class="chip"><div class="chip-dot" style="background:var(--blue)"></div>Pod and resource logs</div>
 						<div class="chip"><div class="chip-dot" style="background:var(--text-muted)"></div>Container selection</div>
 						<div class="chip"><div class="chip-dot" style="background:var(--text-muted)"></div>Log search</div>
 					</div>
@@ -1082,7 +1103,7 @@
 							<div class="dot dot-yellow"></div>
 							<div class="dot dot-green"></div>
 						</div>
-						<img src="screenshots/logs.png" alt="Real-time log streaming">
+						<img src="screenshots/logs.png" width="1279" height="799" alt="Pod logs displayed in GitOps Cockpit">
 					</div>
 				</div>
 			</div>
@@ -1094,12 +1115,11 @@
 		<div class="section-inner">
 			<div class="spotlight-grid reverse">
 				<div class="spotlight-text">
-					<p class="section-label">Sync & Rollback</p>
+					<p class="section-label">Sync &amp; Rollback <span class="tier-label pro">Pro</span></p>
 					<h2 class="section-title">Sync with precision,<br>roll back with confidence</h2>
 					<p class="section-desc">
-						Trigger syncs with full control — prune resources, run dry-runs,
-						or force apply. Browse the full revision history and roll back
-						to any previous deployment in seconds.
+						Trigger syncs with options such as prune and dry-run. Browse
+						deployment history and roll back to an earlier revision.
 					</p>
 					<div class="feature-chips">
 						<div class="chip"><div class="chip-dot" style="background:var(--orange)"></div>Prune & dry-run options</div>
@@ -1114,7 +1134,7 @@
 							<div class="dot dot-yellow"></div>
 							<div class="dot dot-green"></div>
 						</div>
-						<img src="screenshots/app-history.png" alt="Application revision history and rollback">
+						<img src="screenshots/app-history.png" width="1279" height="799" alt="Pro deployment history with rollback controls">
 					</div>
 				</div>
 			</div>
@@ -1129,70 +1149,70 @@
 		<div class="gallery-header">
 			<p class="section-label">More Capabilities</p>
 			<h2 class="section-title">Everything you need in the cockpit</h2>
-			<p class="section-desc">From bulk operations to multi-server management, GitOps Cockpit covers your entire ArgoCD workflow.</p>
+			<p class="section-desc">From bulk operations to multi-server management, GitOps Cockpit covers your entire Argo CD workflow.</p>
 		</div>
 		<div class="gallery-grid">
 			<div class="gallery-item">
-				<img src="screenshots/bulk.png" alt="Bulk operations">
+				<img src="screenshots/bulk.png" width="1279" height="799" alt="Pro bulk operations for applications">
 				<div class="gallery-caption">
-					<h4>Bulk Operations</h4>
-					<p>Sync or delete multiple applications at once</p>
+					<h4>Bulk Operations<span class="tier-label pro">Pro</span></h4>
+					<p>Sync or refresh multiple applications at once</p>
 				</div>
 			</div>
 			<div class="gallery-item">
-				<img src="screenshots/server-selection.png" alt="Multi-server support">
+				<img src="screenshots/server-selection.png" width="1279" height="799" alt="Pro server selector with multiple Argo CD connections">
 				<div class="gallery-caption">
-					<h4>Multi-Server Support</h4>
-					<p>Connect to multiple ArgoCD instances</p>
+					<h4>Multi-Server Support<span class="tier-label pro">Pro</span></h4>
+					<p>Connect to multiple Argo CD instances</p>
 				</div>
 			</div>
 			<div class="gallery-item">
-				<img src="screenshots/favorites.png" alt="Favorite applications">
+				<img src="screenshots/favorites.png" width="1279" height="799" alt="Pro favorites in the application list">
 				<div class="gallery-caption">
-					<h4>Favorites</h4>
+					<h4>Favorites<span class="tier-label pro">Pro</span></h4>
 					<p>Pin your most-used applications for quick access</p>
 				</div>
 			</div>
 			<div class="gallery-item">
-				<img src="screenshots/app-resources.png" alt="Kubernetes resource tree">
+				<img src="screenshots/app-resources.png" width="1279" height="799" alt="Kubernetes resource tree for an Argo CD application">
 				<div class="gallery-caption">
-					<h4>Resource Tree</h4>
+					<h4>Resource Tree<span class="tier-label">Free</span></h4>
 					<p>Navigate the full Kubernetes resource hierarchy</p>
 				</div>
 			</div>
 			<div class="gallery-item">
-				<img src="screenshots/app-events.png" alt="Application events">
+				<img src="screenshots/app-events.png" width="1279" height="799" alt="Kubernetes events for an Argo CD application">
 				<div class="gallery-caption">
-					<h4>Application Events</h4>
+					<h4>Application Events<span class="tier-label">Free</span></h4>
 					<p>Monitor Kubernetes events for each application</p>
 				</div>
 			</div>
 			<div class="gallery-item">
-				<img src="screenshots/resource-summary.png" alt="Resource summary">
+				<img src="screenshots/resource-summary.png" width="1279" height="799" alt="Kubernetes resource details and status">
 				<div class="gallery-caption">
-					<h4>Resource Details</h4>
+					<h4>Resource Details<span class="tier-label">Free</span></h4>
 					<p>Inspect full resource summary and live manifest</p>
 				</div>
 			</div>
 			<div class="gallery-item">
-				<img src="screenshots/diff-unified.png" alt="Unified diff view">
+				<img src="screenshots/diff-unified.png" width="1279" height="799" alt="Pro unified diff of desired and live manifests">
 				<div class="gallery-caption">
-					<h4>Unified Diff</h4>
+					<h4>Unified Diff<span class="tier-label pro">Pro</span></h4>
 					<p>Alternative compact diff view for quick scanning</p>
 				</div>
 			</div>
 			<div class="gallery-item">
-				<img src="screenshots/resource-events.png" alt="Resource events">
+				<img src="screenshots/resource-events.png" width="1279" height="799" alt="Kubernetes events for a selected resource">
 				<div class="gallery-caption">
-					<h4>Resource Events</h4>
+					<h4>Resource Events<span class="tier-label">Free</span></h4>
 					<p>Kubernetes events scoped to individual resources</p>
 				</div>
 			</div>
 			<div class="gallery-item">
-				<img src="screenshots/settings.png" alt="Plugin settings">
+				<img src="screenshots/settings.png" width="1279" height="799" alt="Argo CD server and credential settings">
 				<div class="gallery-caption">
-					<h4>Settings</h4>
-					<p>Configure servers, tokens, and refresh intervals</p>
+					<h4>Settings<span class="tier-label">Free</span></h4>
+					<p>Configure your server and credentials</p>
 				</div>
 			</div>
 		</div>
@@ -1204,15 +1224,15 @@
 	<div class="section-inner">
 		<div class="pricing-header">
 			<p class="section-label">Pricing</p>
-			<h2 class="section-title">Start free, unlock the full cockpit</h2>
-			<p class="section-desc">The core plugin is free. Upgrade to Pro for advanced features that serious GitOps workflows demand.</p>
+			<h2 class="section-title">Start Free. Try Pro for 30 days.</h2>
+			<p class="section-desc">Inspect Argo CD with Free, or try Pro's deployment controls and automation.</p>
 		</div>
 		<div class="pricing-grid">
 			<!-- Free -->
 			<div class="pricing-card">
 				<p class="plan-name">Free</p>
 				<p class="plan-price">€0 <span>forever</span></p>
-				<p class="plan-desc">Everything you need to get started with ArgoCD in IDEA.</p>
+				<p class="plan-desc">Inspect applications and resources in a compatible JetBrains IDE.</p>
 				<ul class="plan-features">
 					<li>
 						<span class="check check-blue">
@@ -1224,7 +1244,7 @@
 						<span class="check check-blue">
 							<svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5 6 4.5 9 10.5 3"/></svg>
 						</span>
-						Real-time health &amp; sync status
+						Application health &amp; sync status
 					</li>
 					<li>
 						<span class="check check-blue">
@@ -1238,6 +1258,8 @@
 						</span>
 						Resource details &amp; manifests
 					</li>
+					<li><span class="check check-blue" aria-hidden="true">✓</span>Application and resource events</li>
+					<li><span class="check check-blue" aria-hidden="true">✓</span>Pod and resource logs</li>
 					<li>
 						<span class="check check-blue">
 							<svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5 6 4.5 9 10.5 3"/></svg>
@@ -1248,7 +1270,7 @@
 						<span class="check check-blue">
 							<svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5 6 4.5 9 10.5 3"/></svg>
 						</span>
-						Open in ArgoCD web UI
+						Open in Argo CD web UI
 					</li>
 					<li>
 						<span class="check check-blue">
@@ -1257,7 +1279,7 @@
 						Self-signed certificate support
 					</li>
 				</ul>
-				<a href="https://plugins.jetbrains.com/plugin/30719-gitops-cockpit-for-argo-cd" class="plan-cta plan-cta-outline">Get Started Free</a>
+				<a href="https://plugins.jetbrains.com/plugin/30719-gitops-cockpit-for-argo-cd" class="plan-cta plan-cta-outline">Install Free</a>
 			</div>
 
 			<!-- Pro -->
@@ -1288,8 +1310,9 @@
 						<span class="check check-orange">
 							<svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5 6 4.5 9 10.5 3"/></svg>
 						</span>
-						Rollback to any revision
+						Rollback to an earlier revision
 					</li>
+					<li><span class="check check-orange" aria-hidden="true">✓</span>Deployment history</li>
 					<li>
 						<span class="check check-orange">
 							<svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5 6 4.5 9 10.5 3"/></svg>
@@ -1321,7 +1344,9 @@
 						Favorite applications
 					</li>
 				</ul>
-				<a href="https://plugins.jetbrains.com/plugin/30719-gitops-cockpit-for-argo-cd" class="plan-cta plan-cta-primary">Upgrade to Pro</a>
+				<a href="https://plugins.jetbrains.com/plugin/30719-gitops-cockpit-for-argo-cd" class="plan-cta plan-cta-primary">Try Pro free for 30 days</a>
+				<p class="plan-note">Full Pro access for 30 days. No feature restrictions during the trial.</p>
+				<a class="pricing-link" href="https://plugins.jetbrains.com/plugin/30719-gitops-cockpit-for-argo-cd/pricing">View pricing on JetBrains Marketplace</a>
 			</div>
 		</div>
 	</div>
@@ -1338,8 +1363,8 @@
 			</div>
 			<h3>Requirements</h3>
 			<ul>
-				<li>IntelliJ IDEA 2025.2+</li>
-				<li>ArgoCD server v2.0+</li>
+				<li>IntelliJ Platform build 263.5701.42 or newer in compatible JetBrains IDEs</li>
+				<li>Argo CD server</li>
 			</ul>
 		</div>
 		<div class="info-card">
@@ -1349,9 +1374,11 @@
 				</svg>
 			</div>
 			<h3>Support</h3>
-			<p>Questions, bugs, or feedback?<br>
-				Reach out at <a href="mailto:m.latta.pro@gmail.com">m.latta.pro@gmail.com</a>
-			</p>
+			<p>Have feedback? GitOps Cockpit is evolving around real GitOps workflows. Tell us what is missing or awkward.</p>
+			<div class="info-actions">
+				<a href="mailto:m.latta.pro@gmail.com?subject=GitOps%20Cockpit%20feedback">Send feedback</a>
+				<a href="https://github.com/MSoloDev/gitops-cockpit-for-argocd-support/issues">Report an issue</a>
+			</div>
 		</div>
 		<div class="info-card">
 			<div class="info-card-icon icon-green">
@@ -1360,7 +1387,7 @@
 				</svg>
 			</div>
 			<h3>Privacy</h3>
-			<p>No telemetry. No data collection. Your ArgoCD tokens stay on your machine.</p>
+			<p>Optional, explicit opt-in for anonymous product analytics. A random installation ID links usage events; no source code, manifests, logs, server URLs, or credentials are included. Processed by PostHog Cloud EU. This GitHub Pages site has no website analytics or tracking cookies. <a href="privacy/">Read the Privacy Policy</a>.</p>
 		</div>
 	</div>
 </section>
@@ -1387,7 +1414,7 @@
 				<path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.5L18.5 7 12 9.5 5.5 7 12 4.5zM4 8.5l7 3.5v7.5l-7-3.5V8.5zm16 0v7.5l-7 3.5v-7.5l7-3.5z"/>
 			</svg>
 		</div>
-		GitOps Cockpit for ArgoCD
+		GitOps Cockpit for Argo CD
 	</a>
 	<div style="display:flex;gap:20px;align-items:center;">
 		<a href="/gitops-cockpit-for-argocd-site/eula" style="color:var(--text-subtle);font-size:0.8rem;text-decoration:none;">EULA</a>

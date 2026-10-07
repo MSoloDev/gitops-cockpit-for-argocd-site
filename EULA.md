@@ -2,9 +2,9 @@
 
 **GitOps Cockpit for Argo CD**
 
-*Effective date: March 16, 2026*
+*Last updated: October 6, 2026*
 
-This End-User License Agreement ("Agreement") is a legal agreement between you ("User") and Michael Latta Software ("Licensor") for the IntelliJ IDEA plugin "GitOps Cockpit for Argo CD" ("Plugin"), distributed through the JetBrains Marketplace.
+This End-User License Agreement ("Agreement") is a legal agreement between you ("User") and Michael Latta Software ("Licensor") for the JetBrains IDE plugin "GitOps Cockpit for Argo CD" ("Plugin"), distributed through the JetBrains Marketplace.
 
 **JetBrains is not a party to this Agreement.** The Plugin is developed and maintained solely by the Licensor.
 
@@ -38,7 +38,7 @@ The Plugin and all associated intellectual property rights are and remain the ex
 
 ## 4. Data and Privacy
 
-The Plugin does not collect, transmit, or store personal data. Authentication tokens for Argo CD servers are stored locally on the User's machine using the operating system's secure credential storage (e.g., OS keychain via IntelliJ PasswordSafe). The Licensor has no access to the User's credentials or Argo CD data.
+The Plugin offers optional product usage analytics only after explicit opt-in. Analytics handling and your choices are described in the [Privacy Policy](privacy/). Argo CD credentials are stored locally through IntelliJ Platform PasswordSafe according to the User's IDE credential-store configuration; they are not included in product analytics.
 
 ## 5. Disclaimer of Warranties
 
